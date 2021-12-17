@@ -3,14 +3,16 @@ using System;
 using JobBoard.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JobBoard.Migrations
 {
     [DbContext(typeof(JobBoardContext))]
-    partial class JobBoardContextModelSnapshot : ModelSnapshot
+    [Migration("20211217133433_basicTables3")]
+    partial class basicTables3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,10 +67,6 @@ namespace JobBoard.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
-                    b.Property<string>("Tag")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<DateTime?>("To")
                         .HasColumnType("datetime");
 
@@ -86,8 +84,44 @@ namespace JobBoard.Migrations
                             CompanyId = 1L,
                             Issued = new DateTime(2021, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Position = "Intern",
-                            Rating = 5,
-                            Tag = "JavaScript"
+                            Rating = 5
+                        });
+                });
+
+            modelBuilder.Entity("JobBoard.Models.TodoItem", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsComplete")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TodoItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            IsComplete = false,
+                            Name = "Lena"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            IsComplete = true,
+                            Name = "Dzban"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            IsComplete = false,
+                            Name = "Jan"
                         });
                 });
 

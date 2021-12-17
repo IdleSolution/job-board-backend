@@ -1,6 +1,6 @@
-using JobBoard.Models;
+using JobBoard.Models.Backend;
 using Microsoft.EntityFrameworkCore;
-using MySql.EntityFrameworkCore.Extensions;
+using System.Collections.Generic;
 
 namespace JobBoard.Contexts
 {
@@ -11,14 +11,17 @@ namespace JobBoard.Contexts
         {
         }
 
-        public DbSet<TodoItem> TodoItems { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TodoItem>().HasData(
-                new { Id = 1L,Name="Lena", IsComplete=false },
-                new { Id = 2L, Name = "Dzban", IsComplete = true }, 
-                new { Id = 3L, Name = "Jan", IsComplete = false }
+            modelBuilder.Entity<Company>().HasData(
+                new { Id = 1L, Name = "Qualtrics", Reviews = new List<Review>() }
+                );
+
+            modelBuilder.Entity<Review>().HasData(
+                new { Id = 1L, CompanyId = 1L, Rating = 5, Position = "Intern", Comment = "Jest niezle", Tag = "JavaScript", Issued = new System.DateTime(2021, 9, 1) }
                 );
         }
     }

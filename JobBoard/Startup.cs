@@ -51,6 +51,7 @@ namespace JobBoard
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }

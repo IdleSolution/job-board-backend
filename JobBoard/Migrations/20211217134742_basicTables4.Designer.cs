@@ -3,14 +3,16 @@ using System;
 using JobBoard.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JobBoard.Migrations
 {
     [DbContext(typeof(JobBoardContext))]
-    partial class JobBoardContextModelSnapshot : ModelSnapshot
+    [Migration("20211217134742_basicTables4")]
+    partial class basicTables4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,10 +67,6 @@ namespace JobBoard.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
-                    b.Property<string>("Tag")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<DateTime?>("To")
                         .HasColumnType("datetime");
 
@@ -86,8 +84,7 @@ namespace JobBoard.Migrations
                             CompanyId = 1L,
                             Issued = new DateTime(2021, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Position = "Intern",
-                            Rating = 5,
-                            Tag = "JavaScript"
+                            Rating = 5
                         });
                 });
 
