@@ -3,14 +3,16 @@ using System;
 using JobBoard.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JobBoard.Migrations
 {
     [DbContext(typeof(JobBoardContext))]
-    partial class JobBoardContextModelSnapshot : ModelSnapshot
+    [Migration("20211219160733_interviewTable")]
+    partial class interviewTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,7 +142,7 @@ namespace JobBoard.Migrations
             modelBuilder.Entity("JobBoard.Models.Backend.Interview", b =>
                 {
                     b.HasOne("JobBoard.Models.Backend.Company", "Company")
-                        .WithMany("Interviews")
+                        .WithMany()
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -161,8 +163,6 @@ namespace JobBoard.Migrations
 
             modelBuilder.Entity("JobBoard.Models.Backend.Company", b =>
                 {
-                    b.Navigation("Interviews");
-
                     b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618

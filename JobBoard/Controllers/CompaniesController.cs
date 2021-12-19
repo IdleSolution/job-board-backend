@@ -27,12 +27,15 @@ namespace JobBoard.Controllers
         {
             var companies = _context.Companies
                 .Include(c => c.Reviews)
+                .Include(c => c.Interviews)
                 .ToArray();
             var frontCompanies = companies.Select(
                 c => new CompanyFront(
                     c.Name,
                     c.Reviews.Count(),
                     c.Reviews.Select(r => r.Rating).Average(),
+                    c.Interviews.Count(),
+                    c.Interviews.Select(i => i.Difficulty).Average(),
                     c.Reviews.Select(r => r.Tag).Distinct().ToArray()
                     ));
             return Ok(frontCompanies);
@@ -40,8 +43,12 @@ namespace JobBoard.Controllers
 
         // GET: api/Companies/Qualtrics
         [HttpGet("{name}")]
-        public ActionResult<CompanyFront> GetTodoItem(string name)
+        public ActionResult<CompanyFront> GetCompany(string name)
         {
+            //Do we need it?
+            //maybe it can be get from all companies
+            //on the frontend?
+            //TODO: optimize
             var companies = _context.Companies
                 .Include(c => c.Reviews)
                 .ToArray();
@@ -49,7 +56,9 @@ namespace JobBoard.Controllers
                 c => new CompanyFront(
                     c.Name,
                     c.Reviews.Count(),
-                    c.Reviews.Select(r => r.Rating).Average(), 
+                    c.Reviews.Select(r => r.Rating).Average(),
+                    c.Interviews.Count(),
+                    c.Interviews.Select(i => i.Difficulty).Average(),
                     c.Reviews.Select(r => r.Tag).Distinct().ToArray()
                     ));
             return Ok(frontCompanies.SingleOrDefault(c => c.Name.Equals(name)));
