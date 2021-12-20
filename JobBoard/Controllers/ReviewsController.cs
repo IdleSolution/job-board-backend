@@ -26,7 +26,6 @@ namespace JobBoard.Controllers
         [HttpGet("{name}")]
         public ActionResult<IEnumerable<ReviewFront>> GetReviews(string name)
         {
-            //
             var reviews = _context.Reviews
                 .Where(r => r.Company.Name.Equals(name))
                 .Select(

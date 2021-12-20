@@ -24,9 +24,9 @@ namespace JobBoard.Controllers
 
         // GET: api/Intereviews/Qualtrics
         [HttpGet("{name}")]
-        public ActionResult<IEnumerable<ReviewFront>> GetInterviews(string name)
+        public ActionResult<IEnumerable<InterviewFront>> GetInterviews(string name)
         {
-            var reviews = _context.Interviews
+            var interviews = _context.Interviews
                 .Where(r => r.Company.Name.Equals(name))
                 .Select(
                 r => new InterviewFront(
@@ -36,7 +36,7 @@ namespace JobBoard.Controllers
                     r.Tag,
                     r.Issued
                     ));
-            return Ok(reviews);
+            return Ok(interviews);
         }
     }
 }

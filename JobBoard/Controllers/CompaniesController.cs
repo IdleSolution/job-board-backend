@@ -47,25 +47,53 @@ namespace JobBoard.Controllers
         [HttpGet("{name}")]
         public ActionResult<CompanyFront> GetCompany(string name)
         {
-            //Do we need it?
-            //maybe it can be get from all companies
-            //on the frontend?
-            //TODO: optimize
             //TODO: Would null be better for default Average
-            var companies = _context.Companies
-                .Include(c => c.Reviews)
-                .Include(c => c.Interviews)
-                .ToArray();
-            var frontCompanies = companies.Select(
-                c => new CompanyFront(
-                    c.Name,
-                    c.Reviews.Count(),
-                    c.Reviews.Select(r => r.Rating).DefaultIfEmpty(0).Average(),
-                    c.Interviews.Count(),
-                    c.Interviews.Select(i => i.Difficulty).DefaultIfEmpty(0).Average(),
-                    c.Reviews.Select(r => r.Tag).Distinct().ToArray()
+            var reviews = GetReviews(name);
+            var interviews = GetInterviews(name);
+            return Ok(new { 
+                Company = new CompanyFront(
+                    name,
+                    reviews.Count(),
+                    reviews.Select(r => r.Rating).DefaultIfEmpty(0).Average(),
+                    interviews.Count(),
+                    interviews.Select(i => i.Difficulty).DefaultIfEmpty(0).Average(),
+                    reviews.Select(r => r.Tag).Distinct().ToArray()
+                    ),
+                Reviews = reviews,
+                Interviews = interviews
+            });
+        }
+
+        private ICollection<InterviewFront> GetInterviews(string name)
+        {
+            var interviews = _context.Interviews
+                .Where(r => r.Company.Name.Equals(name))
+                .Select(
+                r => new InterviewFront(
+                    r.Difficulty,
+                    r.Position,
+                    r.Comment,
+                    r.Tag,
+                    r.Issued
                     ));
-            return Ok(frontCompanies.SingleOrDefault(c => c.Name.Equals(name)));
+            return interviews.ToArray();
+        }
+
+        private ICollection<ReviewFront> GetReviews(string name)
+        {
+            var reviews = _context.Reviews
+                .Where(r => r.Company.Name.Equals(name))
+                .Select(
+                r => new ReviewFront(
+                    r.Rating,
+                    r.Position,
+                    r.Comment,
+                    r.Tag,
+                    r.From,
+                    r.To,
+                    r.Issued
+                    ));
+            return reviews.ToArray();
         }
     }
 }
