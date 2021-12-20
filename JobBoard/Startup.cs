@@ -29,8 +29,9 @@ namespace JobBoard
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<JobBoardContext>(opt => opt.UseMySQL("server=localhost;database=JobBoardDB;user=root;password=Password"));
+            services.AddDbContext<JobBoardContext>(opt => opt.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
