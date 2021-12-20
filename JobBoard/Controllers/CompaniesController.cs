@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -22,6 +23,7 @@ namespace JobBoard.Controllers
             _context = context;
         }
 
+        // GET: api/Companies/All
         [HttpGet]
         public ActionResult<IEnumerable<CompanyFront>> GetCompanies()
         {
@@ -51,6 +53,7 @@ namespace JobBoard.Controllers
             //TODO: optimize
             var companies = _context.Companies
                 .Include(c => c.Reviews)
+                .Include(c => c.Interviews)
                 .ToArray();
             var frontCompanies = companies.Select(
                 c => new CompanyFront(
