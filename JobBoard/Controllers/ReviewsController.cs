@@ -33,7 +33,7 @@ namespace JobBoard.Controllers
                     r.Rating,
                     r.Position,
                     r.Comment,
-                    r.Tag,
+                    r.Tag.Name,
                     r.From,
                     r.To,
                     r.Issued

@@ -33,7 +33,7 @@ namespace JobBoard.Controllers
                     r.Difficulty,
                     r.Position,
                     r.Comment,
-                    r.Tag,
+                    r.Tag.Name,
                     r.Issued
                     ));
             return Ok(interviews);

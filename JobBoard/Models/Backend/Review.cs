@@ -12,7 +12,7 @@ namespace JobBoard.Models.Backend
         public int Rating { get; set; }
         public string Position { get; set; }
         public string Comment { get; set; }
-        public string Tag { get; set; }
+        public Tag Tag { get; set; }
         public DateTime? From { get; set; }
         public DateTime? To { get; set; }
         public DateTime Issued { get; set; }

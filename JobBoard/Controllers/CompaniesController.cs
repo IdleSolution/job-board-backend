@@ -28,7 +28,7 @@ namespace JobBoard.Controllers
         public ActionResult<IEnumerable<CompanyFront>> GetCompanies()
         {
             var companies = _context.Companies
-                .Include(c => c.Reviews)
+                .Include(c => c.Reviews).ThenInclude(c => c.Tag)
                 .Include(c => c.Interviews)
                 .ToArray();
             var frontCompanies = companies.Select(
@@ -38,7 +38,7 @@ namespace JobBoard.Controllers
                     c.Reviews.Select(r => r.Rating).DefaultIfEmpty(0).Average(),
                     c.Interviews.Count(),
                     c.Interviews.Select(i => i.Difficulty).DefaultIfEmpty(0).Average(),
-                    c.Reviews.Select(r => r.Tag).Distinct().ToArray()
+                    c.Reviews.Select(r => r.Tag?.Name).Distinct().ToArray()
                     ));
             return Ok(frontCompanies);
         }
@@ -73,7 +73,7 @@ namespace JobBoard.Controllers
                     r.Difficulty,
                     r.Position,
                     r.Comment,
-                    r.Tag,
+                    r.Tag.Name,
                     r.Issued
                     ));
             return interviews.ToArray();
@@ -88,7 +88,7 @@ namespace JobBoard.Controllers
                     r.Rating,
                     r.Position,
                     r.Comment,
-                    r.Tag,
+                    r.Tag.Name,
                     r.From,
                     r.To,
                     r.Issued
