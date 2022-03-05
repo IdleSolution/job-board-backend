@@ -7,6 +7,13 @@ namespace JobBoard.Models.Backend
 {
     public class Tag
     {
+        public Tag() { }
+
+        public Tag(string name)
+        {
+            Name = name;
+        }
+
         [Key]
         [ForeignKey("Interview")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

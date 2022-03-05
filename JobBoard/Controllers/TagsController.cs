@@ -26,5 +26,13 @@ namespace JobBoard.Controllers
                 .ToArray();
             return Ok(tags);
         }
+
+        [HttpPost]
+        public ActionResult<string> PostTag([FromBody] string tag)
+        {
+            _context.Tags.Add(new Models.Backend.Tag(tag));
+            _context.SaveChanges();
+            return Ok(tag);
+        }
     }
 }

@@ -6,7 +6,7 @@ namespace JobBoard.Models.Backend
 {
     public class Interview
     {
-        /**/
+        // Required by entity framework
         public Interview() { }
         public Interview(long companyId, Company company, int difficulty, string position, string comment, Tag tag, DateTime issued)
         {
@@ -18,19 +18,6 @@ namespace JobBoard.Models.Backend
             Tag = tag;
             Issued = issued;
         }
-        /*
-        public Interview(long id, long companyId, Company company, int difficulty, string position, string comment, Tag tag, DateTime issued)
-        {
-            Id = id;
-            CompanyId = companyId;
-            Company = company;
-            Difficulty = difficulty;
-            Position = position;
-            Comment = comment;
-            Tag = tag;
-            Issued = issued;
-        }
-        */
 
         public long Id { get; set; }
         public long CompanyId { get; set; }

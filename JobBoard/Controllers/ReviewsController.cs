@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using JobBoard.Contexts;
 using JobBoard.Models;
 using JobBoard.Models.Frontend;
+using JobBoard.Models.Backend;
 
 namespace JobBoard.Controllers
 {
@@ -39,6 +40,27 @@ namespace JobBoard.Controllers
                     r.Issued
                     ));
             return Ok(reviews);
+        }
+
+        // Post: api/Reviews/Qualtrics
+        [HttpPost("{name}")]
+        public ActionResult<ReviewFront> PostReview(string name, [FromBody] ReviewFront reviewFront)
+        {
+            if (_context.Companies.Any(c => c.Name.Equals(name)))
+            {
+                Review review = CreateReview(name, reviewFront);
+                _context.Reviews.Add(review);
+                _context.SaveChanges();
+                return Ok(reviewFront);
+            }
+            return NotFound(reviewFront);
+        }
+
+        private Review CreateReview(string name, ReviewFront reviewFront)
+        {
+            var company = _context.Companies.Single(c => c.Name.Equals(name));
+            var tag = _context.Tags.Single(t => t.Name.Equals(reviewFront.Tag));
+            return new Review(company.Id, company, reviewFront.Rating, reviewFront.Position, reviewFront.Comment, tag, reviewFront.From, reviewFront.To, reviewFront.Issued);
         }
     }
 }

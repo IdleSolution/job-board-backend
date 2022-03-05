@@ -8,6 +8,11 @@ namespace JobBoard.Models.Backend
 {
     public class Company
     {
+        public Company() { }
+        public Company(string name)
+        {
+            Name = name;
+        }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }

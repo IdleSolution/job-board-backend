@@ -50,7 +50,7 @@ namespace JobBoard.Controllers
             //TODO: Would null be better for default Average
             var reviews = GetReviews(name);
             var interviews = GetInterviews(name);
-            return Ok(new { 
+            return Ok(new {
                 Company = new CompanyFront(
                     name,
                     reviews.Count(),
@@ -62,6 +62,17 @@ namespace JobBoard.Controllers
                 Reviews = reviews,
                 Interviews = interviews
             });
+        }
+
+        [HttpPost("{name}")]
+        public ActionResult<CompanyFront> PostCompany(string name)
+        {
+            if (!_context.Companies.Any(c => c.Name.Equals(name)))
+            {
+                _context.Companies.Add(new Models.Backend.Company(name));
+                _context.SaveChanges();
+            }
+            return GetCompany(name);
         }
 
         private ICollection<InterviewFront> GetInterviews(string name)
