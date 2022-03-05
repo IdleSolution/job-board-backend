@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using JobBoard.Contexts;
 using JobBoard.Models;
 using JobBoard.Models.Frontend;
+using JobBoard.Models.Backend;
 
 namespace JobBoard.Controllers
 {
@@ -37,6 +38,27 @@ namespace JobBoard.Controllers
                     r.Issued
                     ));
             return Ok(interviews);
+        }
+
+        // Post: api/Intereviews/Qualtrics
+        [HttpPost("{name}")]
+        public ActionResult<InterviewFront> PostInterview(string name, [FromBody] InterviewFront interviewFront)
+        {
+            if (_context.Companies.Any(c => c.Name.Equals(name)))
+            {
+                Interview interview = CreateInterview(name, interviewFront);
+                _context.Interviews.Add(interview);
+                _context.SaveChanges();
+                return Ok(interviewFront);
+            }
+            return NotFound(interviewFront);
+        }
+
+        private Interview CreateInterview(string name, InterviewFront interviewFront)
+        {
+            var company = _context.Companies.Single(c => c.Name.Equals(name));
+            var tag = _context.Tags.Single(t => t.Name.Equals(interviewFront.Tag));
+            return new Interview(company.Id, company, interviewFront.Difficulty, interviewFront.Position, interviewFront.Comment, tag, interviewFront.Issued);
         }
     }
 }
