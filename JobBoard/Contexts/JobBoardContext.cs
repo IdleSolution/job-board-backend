@@ -41,15 +41,19 @@ namespace JobBoard.Contexts
                 new { Id = 1L, Name = "Qualtrics" },
                 new { Id = 2L, Name = "Comarch"},
                 new { Id = 3L, Name = "SWM"},
-                new { Id = 4L, Name = "Capgemini"}
-
+                new { Id = 4L, Name = "Capgemini"}, 
+                new { Id = 5L, Name = "Nokia"}
             );
 
             modelBuilder.Entity<Review>().HasData(
                 new { Id = 1L, CompanyId = 1L, Rating = 5, Position = "Intern", Comment = "Jest niezle", TagId = 1L, Issued = new System.DateTime(2021, 9, 1) },
                 new { Id = 2L, CompanyId = 2L, Rating = 1, Position = "Intern", Comment = "Jest niezle", TagId = 2L, Issued = new System.DateTime(2021, 9, 1) },
                 new { Id = 3L, CompanyId = 3L, Rating = 5, Position = "Intern", Comment = "Jest niezle", TagId = 3L, Issued = new System.DateTime(2021, 9, 1) },
-                new { Id = 4L, CompanyId = 4L, Rating = 5, Position = "Intern", Comment = "Jest niezle", TagId = 3L, Issued = new System.DateTime(2021, 9, 1) }
+                new { Id = 4L, CompanyId = 4L, Rating = 5, Position = "Intern", Comment = "Jest niezle", TagId = 3L, Issued = new System.DateTime(2021, 9, 1) },
+                new { Id = 5L, CompanyId = 5L, Rating = 5, Position = "Intern", Comment = "Firma jak firma", TagId = 4L, Issued = new System.DateTime(2021, 9, 1) },
+                new { Id = 6L, CompanyId = 5L, Rating = 5, Position = "Intern", Comment = "Ja tam polecam", TagId = 11L, Issued = new System.DateTime(2021, 9, 1) },
+                new { Id = 7L, CompanyId = 2L, Rating = 3, Position = "Intern", Comment = "Jest niezle", TagId = 8L, Issued = new System.DateTime(2021, 9, 1) },
+                new { Id = 8L, CompanyId = 2L, Rating = 2, Position = "Intern", Comment = "Jest niezle", TagId = 10L, Issued = new System.DateTime(2021, 9, 1) }
             );
             modelBuilder.Entity<Interview>().HasData(
                 new { Id = 1L, CompanyId = 1L, Difficulty = 5, Position = "Intern", Comment = "Kinda hard", TagId = 5L, Issued = new System.DateTime(2021, 9, 1) },
