@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="mysqlAzure" uuid="17e9183f-0e90-4cd1-81f9-c3aec3249a85">
+    <data-source source="LOCAL" name="JobBoardDB@localhost" uuid="ecbd8001-3f02-4369-8d89-8580bcaf06c9">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://staz-back-server.mysql.database.azure.com:3306</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/JobBoardDB</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="FreeMySQLhosting.net" uuid="0047f890-012e-4c3e-8e90-ce6b63829814">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://sql11.freemysqlhosting.net:3306/sql11477677</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

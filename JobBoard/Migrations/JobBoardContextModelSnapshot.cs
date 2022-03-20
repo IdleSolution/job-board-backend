@@ -51,6 +51,11 @@ namespace JobBoard.Migrations
                         {
                             Id = 4L,
                             Name = "Capgemini"
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            Name = "Nokia"
                         });
                 });
 
@@ -215,25 +220,42 @@ namespace JobBoard.Migrations
                         new
                         {
                             Id = 5L,
-                            Comment = "Jest niezle",
-                            CompanyId = 4L,
-                            From = new DateTime(2021, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Comment = "Firma jak firma",
+                            CompanyId = 5L,
                             Issued = new DateTime(2021, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Position = "Intern",
                             Rating = 5,
-                            TagId = 3L,
-                            To = new DateTime(2021, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            TagId = 4L
                         },
                         new
                         {
                             Id = 6L,
-                            Comment = "Jest niezle",
-                            CompanyId = 4L,
-                            From = new DateTime(2021, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Comment = "Ja tam polecam",
+                            CompanyId = 5L,
                             Issued = new DateTime(2021, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Position = "Intern",
                             Rating = 5,
-                            TagId = 3L
+                            TagId = 11L
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            Comment = "Jest niezle",
+                            CompanyId = 2L,
+                            Issued = new DateTime(2021, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Position = "Intern",
+                            Rating = 3,
+                            TagId = 8L
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            Comment = "Jest niezle",
+                            CompanyId = 2L,
+                            Issued = new DateTime(2021, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Position = "Intern",
+                            Rating = 2,
+                            TagId = 10L
                         });
                 });
 
