@@ -102,6 +102,7 @@ namespace JobBoard.Controllers
                     r.Tag.Name,
                     r.From,
                     r.To,
+                    r.From!=null && r.To == null,
                     r.Issued
                     ));
             return reviews.ToArray();
