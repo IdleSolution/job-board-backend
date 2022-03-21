@@ -6,7 +6,7 @@ namespace JobBoard.Models.Frontend
 {
     public class ReviewFront
     {
-        public ReviewFront(int rating, string position, string comment, string tag, DateTime? from, DateTime? to, DateTime issued)
+        public ReviewFront(int rating, string position, string comment, string tag, DateTime? from, DateTime? to, bool isStillWorking, DateTime issued)
         {
             Rating = rating;
             Position = position;
@@ -14,6 +14,7 @@ namespace JobBoard.Models.Frontend
             Tag = tag;
             From = from;
             To = to;
+            IsStillWorking = isStillWorking;
             Issued = issued;
         }
 
@@ -23,6 +24,7 @@ namespace JobBoard.Models.Frontend
         public string Tag { get; set; }
         public DateTime? From { get; set; }
         public DateTime? To { get; set; }
+        public bool IsStillWorking { get; set; }
         public DateTime Issued { get; set; }
     }
 }

@@ -36,6 +36,7 @@ namespace JobBoard
                     .AllowAnyHeader();
             }));
             services.AddDbContext<JobBoardContext>(opt => opt.UseMySQL(Configuration.GetConnectionString("LocalConnection")));
+
             services.AddControllers();
             
         }

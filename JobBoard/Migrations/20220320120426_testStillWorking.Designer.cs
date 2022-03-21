@@ -3,14 +3,16 @@ using System;
 using JobBoard.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JobBoard.Migrations
 {
     [DbContext(typeof(JobBoardContext))]
-    partial class JobBoardContextModelSnapshot : ModelSnapshot
+    [Migration("20220320120426_testStillWorking")]
+    partial class testStillWorking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,11 +53,6 @@ namespace JobBoard.Migrations
                         {
                             Id = 4L,
                             Name = "Capgemini"
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            Name = "Nokia"
                         });
                 });
 
@@ -220,46 +217,6 @@ namespace JobBoard.Migrations
                         new
                         {
                             Id = 5L,
-                            Comment = "Firma jak firma",
-                            CompanyId = 5L,
-                            Issued = new DateTime(2021, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Position = "Intern",
-                            Rating = 5,
-                            TagId = 4L
-                        },
-                        new
-                        {
-                            Id = 6L,
-                            Comment = "Ja tam polecam",
-                            CompanyId = 5L,
-                            Issued = new DateTime(2021, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Position = "Intern",
-                            Rating = 5,
-                            TagId = 11L
-                        },
-                        new
-                        {
-                            Id = 7L,
-                            Comment = "Jest niezle",
-                            CompanyId = 2L,
-                            Issued = new DateTime(2021, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Position = "Intern",
-                            Rating = 3,
-                            TagId = 8L
-                        },
-                        new
-                        {
-                            Id = 8L,
-                            Comment = "Jest niezle",
-                            CompanyId = 2L,
-                            Issued = new DateTime(2021, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Position = "Intern",
-                            Rating = 2,
-                            TagId = 10L
-                        },
-                        new
-                        {
-                            Id = 9L,
                             Comment = "Jest niezle",
                             CompanyId = 4L,
                             From = new DateTime(2021, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -271,7 +228,7 @@ namespace JobBoard.Migrations
                         },
                         new
                         {
-                            Id = 10L,
+                            Id = 6L,
                             Comment = "Jest niezle",
                             CompanyId = 4L,
                             From = new DateTime(2021, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),

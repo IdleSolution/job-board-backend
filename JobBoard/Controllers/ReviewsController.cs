@@ -37,6 +37,7 @@ namespace JobBoard.Controllers
                     r.Tag.Name,
                     r.From,
                     r.To,
+                    r.To == null && r.From != null,
                     r.Issued
                     ));
             return Ok(reviews);
@@ -60,7 +61,7 @@ namespace JobBoard.Controllers
         {
             var company = _context.Companies.Single(c => c.Name.Equals(name));
             var tag = _context.Tags.Single(t => t.Name.Equals(reviewFront.Tag));
-            return new Review(company.Id, company, reviewFront.Rating, reviewFront.Position, reviewFront.Comment, tag, reviewFront.From, reviewFront.To, reviewFront.Issued);
+            return new Review(company.Id, company, reviewFront.Rating, reviewFront.Position, reviewFront.Comment, tag, reviewFront.From, reviewFront.IsStillWorking? null:reviewFront.To, reviewFront.Issued);
         }
     }
 }
