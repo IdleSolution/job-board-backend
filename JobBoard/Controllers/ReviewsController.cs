@@ -9,6 +9,7 @@ using JobBoard.Contexts;
 using JobBoard.Models;
 using JobBoard.Models.Frontend;
 using JobBoard.Models.Backend;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JobBoard.Controllers
 {
@@ -24,6 +25,7 @@ namespace JobBoard.Controllers
         }
 
         // GET: api/Reviews/Qualtrics
+        [Authorize]
         [HttpGet("{name}")]
         public ActionResult<IEnumerable<ReviewFront>> GetReviews(string name)
         {
@@ -44,6 +46,7 @@ namespace JobBoard.Controllers
         }
 
         // Post: api/Reviews/Qualtrics
+        [Authorize]
         [HttpPost("{name}")]
         public ActionResult<ReviewFront> PostReview(string name, [FromBody] ReviewFront reviewFront)
         {

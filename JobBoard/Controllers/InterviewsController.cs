@@ -9,6 +9,7 @@ using JobBoard.Contexts;
 using JobBoard.Models;
 using JobBoard.Models.Frontend;
 using JobBoard.Models.Backend;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JobBoard.Controllers
 {
@@ -17,13 +18,13 @@ namespace JobBoard.Controllers
     public class InterviewsController : ControllerBase
     {
         private readonly JobBoardContext _context;
-
         public InterviewsController(JobBoardContext context)
         {
             _context = context;
         }
 
         // GET: api/Intereviews/Qualtrics
+        [Authorize]
         [HttpGet("{name}")]
         public ActionResult<IEnumerable<InterviewFront>> GetInterviews(string name)
         {
@@ -41,6 +42,7 @@ namespace JobBoard.Controllers
         }
 
         // Post: api/Intereviews/Qualtrics
+        [Authorize]
         [HttpPost("{name}")]
         public ActionResult<InterviewFront> PostInterview(string name, [FromBody] InterviewFront interviewFront)
         {

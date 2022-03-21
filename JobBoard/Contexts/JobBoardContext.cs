@@ -1,14 +1,15 @@
 using JobBoard.Models.Backend;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace JobBoard.Contexts
 {
-    public class JobBoardContext : DbContext
+    public class JobBoardContext : IdentityDbContext<User>
     {
-        public JobBoardContext(DbContextOptions<JobBoardContext> options)
-            : base(options)
+        public JobBoardContext(DbContextOptions<JobBoardContext> options) : base(options)
         {
+
         }
 
         public DbSet<Company> Companies { get; set; }
@@ -19,6 +20,15 @@ namespace JobBoard.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<User>(entity => entity.Property(m => m.NormalizedEmail).HasMaxLength(200));
+            modelBuilder.Entity<User>(entity => entity.Property(m => m.Id).HasMaxLength(200));
+            modelBuilder.Entity<User>(entity => entity.Property(m => m.NormalizedUserName).HasMaxLength(200));
+
+            modelBuilder.Entity<Role>(entity => entity.Property(m => m.NormalizedName).HasMaxLength(200));
+            modelBuilder.Entity<Role>(entity => entity.Property(m => m.Id).HasMaxLength(200));
+
             List<Tag> tags = new List<Tag> {
                 new Tag { Id = 1, Name = "JS/TS" },
                 new Tag { Id = 2, Name = "C#" },
