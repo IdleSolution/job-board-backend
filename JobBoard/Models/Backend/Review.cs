@@ -9,7 +9,7 @@ namespace JobBoard.Models.Backend
         // Required by entity framework
         public Review() { }
 
-        public Review(long companyId, Company company, int rating, string position, string comment, Tag tag, DateTime? from, DateTime? to, DateTime issued)
+        public Review(long companyId, Company company, int rating, string position, string comment, Tag tag, DateTime? from, DateTime? to, DateTime issued, User user)
         {
             CompanyId = companyId;
             Company = company;
@@ -20,6 +20,7 @@ namespace JobBoard.Models.Backend
             From = from;
             To = to;
             Issued = issued;
+            User = user;
         }
 
         public long Id { get; set; }
@@ -32,5 +33,6 @@ namespace JobBoard.Models.Backend
         public DateTime? From { get; set; }
         public DateTime? To { get; set; }
         public DateTime Issued { get; set; }
+        public User User { get; set; }
     }
 }

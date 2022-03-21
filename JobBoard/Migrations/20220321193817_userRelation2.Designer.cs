@@ -3,14 +3,16 @@ using System;
 using JobBoard.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JobBoard.Migrations
 {
     [DbContext(typeof(JobBoardContext))]
-    partial class JobBoardContextModelSnapshot : ModelSnapshot
+    [Migration("20220321193817_userRelation2")]
+    partial class userRelation2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

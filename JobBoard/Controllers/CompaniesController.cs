@@ -85,7 +85,8 @@ namespace JobBoard.Controllers
                     r.Position,
                     r.Comment,
                     r.Tag.Name,
-                    r.Issued
+                    r.Issued,
+                    r.User.Email
                     ));
             return interviews.ToArray();
         }
@@ -103,7 +104,8 @@ namespace JobBoard.Controllers
                     r.From,
                     r.To,
                     r.From!=null && r.To == null,
-                    r.Issued
+                    r.Issued,
+                    r.User.Email
                     ));
             return reviews.ToArray();
         }
