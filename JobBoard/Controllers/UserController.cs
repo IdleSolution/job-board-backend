@@ -6,6 +6,7 @@ using JobBoard.Models.Frontend;
 using Microsoft.AspNetCore.Identity;
 using JobBoard.Models.Backend;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace JobBoard.Controllers
 {
@@ -28,24 +29,28 @@ namespace JobBoard.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<string>> RegisterUser([FromBody] LoginCredentials credentials)
         {
+            if(await _userManager.FindByEmailAsync(credentials.Email) is not null)
+            {
+                return BadRequest($"user {credentials.Email} already exists");
+            }
             var user = new User { UserName = credentials.Email, Email = credentials.Email };
             var result = await _userManager.CreateAsync(user, credentials.Password);
-
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, true);
+                // TODO: return profile user info 
                 return Ok("Registered and signed in");
             }
             return BadRequest(result.Errors);
         }
-
         // POST: api/user/Login
         [HttpPost("login")]
         public async Task<ActionResult<string>> LoginUser([FromBody] LoginCredentials credentials)
         {
-            var user = new User { UserName = credentials.Email, Email = credentials.Email };
-            await _signInManager.SignInAsync(user, true);
-            return Ok("signed in");
+            var user = await _userManager.FindByEmailAsync(credentials.Email);
+            await _signInManager.PasswordSignInAsync(user, credentials.Password, true, false);
+            // TODO: return profile user info 
+            return Ok();
         }
     }
 }
