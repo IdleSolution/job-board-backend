@@ -63,7 +63,7 @@ namespace JobBoard.Controllers
 
         private Review CreateReview(string name, ReviewFront reviewFront)
         {
-            var user = _context.Users.Single(u => u.Email.Equals(reviewFront.CreatorEmail));
+            var user = _context.Users.Single(u => u.Email.Equals(HttpContext.User.Identity.Name));
             var company = _context.Companies.Single(c => c.Name.Equals(name));
             var tag = _context.Tags.Single(t => t.Name.Equals(reviewFront.Tag));
             return new Review(company.Id, company, reviewFront.Rating, reviewFront.Position, reviewFront.Comment, tag, reviewFront.From, reviewFront.IsStillWorking? null:reviewFront.To, reviewFront.Issued, user);

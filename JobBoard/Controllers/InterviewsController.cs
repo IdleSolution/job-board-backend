@@ -59,7 +59,7 @@ namespace JobBoard.Controllers
 
         private Interview CreateInterview(string name, InterviewFront interviewFront)
         {
-            var user = _context.Users.Single(u => u.Email.Equals(interviewFront.CreatorEmail));
+            var user = _context.Users.Single(u => u.Email.Equals(HttpContext.User.Identity.Name));
             var company = _context.Companies.Single(c => c.Name.Equals(name));
             var tag = _context.Tags.Single(t => t.Name.Equals(interviewFront.Tag));
             return new Interview(company.Id, company, interviewFront.Difficulty, interviewFront.Position, interviewFront.Comment, tag, interviewFront.Issued, user);
