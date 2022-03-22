@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using JobBoard.Models.Backend;
 using System.Threading.Tasks;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Cors;
 
 namespace JobBoard.Controllers
 {

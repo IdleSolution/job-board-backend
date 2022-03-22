@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using JobBoard.Models.Backend;
+using Microsoft.AspNetCore.Http;
 
 namespace JobBoard
 {
@@ -28,12 +29,16 @@ namespace JobBoard
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
-                builder.AllowAnyOrigin()
+                builder.WithOrigins("http://localhost:3000")
                     .AllowAnyMethod()
+                    .AllowCredentials()
                     .AllowAnyHeader();
             }));
 
+
             services.AddControllers();
+
+            
             
         }
 
@@ -44,11 +49,12 @@ namespace JobBoard
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors("MyPolicy");
 
             //app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("MyPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -57,6 +63,14 @@ namespace JobBoard
             {
                 endpoints.MapControllers();
             });
+
+            app.UseStatusCodePages();
+
+            app.UseCookiePolicy(new CookiePolicyOptions
+            {
+                Secure = CookieSecurePolicy.SameAsRequest
+            });
+
 
         }
     }
