@@ -3,14 +3,16 @@ using System;
 using JobBoard.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JobBoard.Migrations
 {
     [DbContext(typeof(JobBoardContext))]
-    partial class JobBoardContextModelSnapshot : ModelSnapshot
+    [Migration("20220321192114_userRelation")]
+    partial class userRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -449,12 +451,12 @@ namespace JobBoard.Migrations
                         {
                             Id = "dummyId",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8105b60c-6ab3-44e6-afa8-2416b93ce503",
+                            ConcurrencyStamp = "4610ab8b-3c21-4bb8-a8ef-42b65fdc1bd8",
                             Email = "dummy",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9967eca6-bc4e-4c79-8848-a6ca40ddc556",
+                            SecurityStamp = "77cbb8c7-3fb2-42db-b65f-a8cdc98fe46f",
                             TwoFactorEnabled = false,
                             UserName = "dummy"
                         });
@@ -617,7 +619,7 @@ namespace JobBoard.Migrations
                     b.HasOne("JobBoard.Models.Backend.User", "User")
                         .WithMany("Interviews")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Company");
@@ -642,7 +644,7 @@ namespace JobBoard.Migrations
                     b.HasOne("JobBoard.Models.Backend.User", "User")
                         .WithMany("Reviews")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Company");

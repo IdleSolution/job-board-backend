@@ -36,7 +36,8 @@ namespace JobBoard.Controllers
                     r.Position,
                     r.Comment,
                     r.Tag.Name,
-                    r.Issued
+                    r.Issued,
+                    r.User.Email
                     ));
             return Ok(interviews);
         }
@@ -46,21 +47,22 @@ namespace JobBoard.Controllers
         [HttpPost("{name}")]
         public ActionResult<InterviewFront> PostInterview(string name, [FromBody] InterviewFront interviewFront)
         {
-            if (_context.Companies.Any(c => c.Name.Equals(name)))
+            if (_context.Companies.Any(c => c.Name.Equals(name)) && HttpContext.User.Identity.Name.Equals(interviewFront.CreatorEmail))
             {
                 Interview interview = CreateInterview(name, interviewFront);
                 _context.Interviews.Add(interview);
                 _context.SaveChanges();
                 return Ok(interviewFront);
             }
-            return NotFound(interviewFront);
+            return BadRequest(interviewFront);
         }
 
         private Interview CreateInterview(string name, InterviewFront interviewFront)
         {
+            var user = _context.Users.Single(u => u.Email.Equals(interviewFront.CreatorEmail));
             var company = _context.Companies.Single(c => c.Name.Equals(name));
             var tag = _context.Tags.Single(t => t.Name.Equals(interviewFront.Tag));
-            return new Interview(company.Id, company, interviewFront.Difficulty, interviewFront.Position, interviewFront.Comment, tag, interviewFront.Issued);
+            return new Interview(company.Id, company, interviewFront.Difficulty, interviewFront.Position, interviewFront.Comment, tag, interviewFront.Issued, user);
         }
     }
 }

@@ -40,7 +40,8 @@ namespace JobBoard.Controllers
                     r.From,
                     r.To,
                     r.To == null && r.From != null,
-                    r.Issued
+                    r.Issued,
+                    r.User.Email
                     ));
             return Ok(reviews);
         }
@@ -50,21 +51,22 @@ namespace JobBoard.Controllers
         [HttpPost("{name}")]
         public ActionResult<ReviewFront> PostReview(string name, [FromBody] ReviewFront reviewFront)
         {
-            if (_context.Companies.Any(c => c.Name.Equals(name)))
+            if (_context.Companies.Any(c => c.Name.Equals(name)) && HttpContext.User.Identity.Name.Equals(reviewFront.CreatorEmail))
             {
                 Review review = CreateReview(name, reviewFront);
                 _context.Reviews.Add(review);
                 _context.SaveChanges();
                 return Ok(reviewFront);
             }
-            return NotFound(reviewFront);
+            return BadRequest(reviewFront);
         }
 
         private Review CreateReview(string name, ReviewFront reviewFront)
         {
+            var user = _context.Users.Single(u => u.Email.Equals(reviewFront.CreatorEmail));
             var company = _context.Companies.Single(c => c.Name.Equals(name));
             var tag = _context.Tags.Single(t => t.Name.Equals(reviewFront.Tag));
-            return new Review(company.Id, company, reviewFront.Rating, reviewFront.Position, reviewFront.Comment, tag, reviewFront.From, reviewFront.IsStillWorking? null:reviewFront.To, reviewFront.Issued);
+            return new Review(company.Id, company, reviewFront.Rating, reviewFront.Position, reviewFront.Comment, tag, reviewFront.From, reviewFront.IsStillWorking? null:reviewFront.To, reviewFront.Issued, user);
         }
     }
 }

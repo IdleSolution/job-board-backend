@@ -29,6 +29,16 @@ namespace JobBoard.Contexts
             modelBuilder.Entity<Role>(entity => entity.Property(m => m.NormalizedName).HasMaxLength(200));
             modelBuilder.Entity<Role>(entity => entity.Property(m => m.Id).HasMaxLength(200));
 
+            modelBuilder.Entity<Interview>()
+                .HasOne(i => i.User)
+                .WithMany(u => u.Interviews)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.User)
+                .WithMany(u => u.Reviews)
+                .OnDelete(DeleteBehavior.Restrict);
+
             List<Tag> tags = new List<Tag> {
                 new Tag { Id = 1, Name = "JS/TS" },
                 new Tag { Id = 2, Name = "C#" },
@@ -43,6 +53,12 @@ namespace JobBoard.Contexts
                 new Tag { Id = 11, Name = "Kotlin" }
             };
 
+            User dummy = new User { Email = "dummy", Id = "dummyId", UserName = "dummy" };
+
+            modelBuilder.Entity<User>().HasData(
+                    dummy
+                );
+
             modelBuilder.Entity<Tag>().HasData(
                 tags
                 );
@@ -56,22 +72,22 @@ namespace JobBoard.Contexts
             );
 
             modelBuilder.Entity<Review>().HasData(
-                new { Id = 1L, CompanyId = 1L, Rating = 5, Position = "Intern", Comment = "Jest niezle", TagId = 1L, Issued = new System.DateTime(2021, 9, 1) },
-                new { Id = 2L, CompanyId = 2L, Rating = 1, Position = "Intern", Comment = "Jest niezle", TagId = 2L, Issued = new System.DateTime(2021, 9, 1) },
-                new { Id = 3L, CompanyId = 3L, Rating = 5, Position = "Intern", Comment = "Jest niezle", TagId = 3L, Issued = new System.DateTime(2021, 9, 1) },
-                new { Id = 4L, CompanyId = 4L, Rating = 5, Position = "Intern", Comment = "Jest niezle", TagId = 3L, Issued = new System.DateTime(2021, 9, 1) },
-                new { Id = 5L, CompanyId = 5L, Rating = 5, Position = "Intern", Comment = "Firma jak firma", TagId = 4L, Issued = new System.DateTime(2021, 9, 1) },
-                new { Id = 6L, CompanyId = 5L, Rating = 5, Position = "Intern", Comment = "Ja tam polecam", TagId = 11L, Issued = new System.DateTime(2021, 9, 1) },
-                new { Id = 7L, CompanyId = 2L, Rating = 3, Position = "Intern", Comment = "Jest niezle", TagId = 8L, Issued = new System.DateTime(2021, 9, 1) },
-                new { Id = 8L, CompanyId = 2L, Rating = 2, Position = "Intern", Comment = "Jest niezle", TagId = 10L, Issued = new System.DateTime(2021, 9, 1) },
-                new { Id = 9L, CompanyId = 4L, Rating = 5, Position = "Intern", Comment = "Jest niezle", TagId = 3L, From = new System.DateTime(2021, 9, 1), To = new System.DateTime(2021, 9, 1), Issued = new System.DateTime(2021, 9, 1) },
-                new { Id = 10L, CompanyId = 4L, Rating = 5, Position = "Intern", Comment = "Jest niezle", TagId = 3L, From = new System.DateTime(2021, 9, 1), Issued = new System.DateTime(2021, 9, 1) }
+                new { Id = 1L, CompanyId = 1L, Rating = 5, Position = "Intern", Comment = "Jest niezle", TagId = 1L, Issued = new System.DateTime(2021, 9, 1), UserId = dummy.Id },
+                new { Id = 2L, CompanyId = 2L, Rating = 1, Position = "Intern", Comment = "Jest niezle", TagId = 2L, Issued = new System.DateTime(2021, 9, 1), UserId = dummy.Id },
+                new { Id = 3L, CompanyId = 3L, Rating = 5, Position = "Intern", Comment = "Jest niezle", TagId = 3L, Issued = new System.DateTime(2021, 9, 1), UserId = dummy.Id },
+                new { Id = 4L, CompanyId = 4L, Rating = 5, Position = "Intern", Comment = "Jest niezle", TagId = 3L, Issued = new System.DateTime(2021, 9, 1), UserId = dummy.Id },
+                new { Id = 5L, CompanyId = 5L, Rating = 5, Position = "Intern", Comment = "Firma jak firma", TagId = 4L, Issued = new System.DateTime(2021, 9, 1), UserId = dummy.Id },
+                new { Id = 6L, CompanyId = 5L, Rating = 5, Position = "Intern", Comment = "Ja tam polecam", TagId = 11L, Issued = new System.DateTime(2021, 9, 1), UserId = dummy.Id },
+                new { Id = 7L, CompanyId = 2L, Rating = 3, Position = "Intern", Comment = "Jest niezle", TagId = 8L, Issued = new System.DateTime(2021, 9, 1), UserId = dummy.Id },
+                new { Id = 8L, CompanyId = 2L, Rating = 2, Position = "Intern", Comment = "Jest niezle", TagId = 10L, Issued = new System.DateTime(2021, 9, 1), UserId = dummy.Id },
+                new { Id = 9L, CompanyId = 4L, Rating = 5, Position = "Intern", Comment = "Jest niezle", TagId = 3L, From = new System.DateTime(2021, 9, 1), To = new System.DateTime(2021, 9, 1), Issued = new System.DateTime(2021, 9, 1), UserId = dummy.Id },
+                new { Id = 10L, CompanyId = 4L, Rating = 5, Position = "Intern", Comment = "Jest niezle", TagId = 3L, From = new System.DateTime(2021, 9, 1), Issued = new System.DateTime(2021, 9, 1), UserId = dummy.Id }
             );
             modelBuilder.Entity<Interview>().HasData(
-                new { Id = 1L, CompanyId = 1L, Difficulty = 5, Position = "Intern", Comment = "Kinda hard", TagId = 5L, Issued = new System.DateTime(2021, 9, 1) },
-                new { Id = 2L, CompanyId = 2L, Difficulty = 1, Position = "Intern", Comment = "ez", TagId = 2L, Issued = new System.DateTime(2021, 9, 1) },
-                new { Id = 3L, CompanyId = 3L, Difficulty = 1, Position = "Intern", Comment = "ez", TagId = 2L, Issued = new System.DateTime(2021, 9, 1) },
-                new { Id = 4L, CompanyId = 4L, Difficulty = 1, Position = "Intern", Comment = "ez", TagId = 2L, Issued = new System.DateTime(2021, 9, 1) }
+                new { Id = 1L, CompanyId = 1L, Difficulty = 5, Position = "Intern", Comment = "Kinda hard", TagId = 5L, Issued = new System.DateTime(2021, 9, 1), UserId = dummy.Id },
+                new { Id = 2L, CompanyId = 2L, Difficulty = 1, Position = "Intern", Comment = "ez", TagId = 2L, Issued = new System.DateTime(2021, 9, 1), UserId = dummy.Id },
+                new { Id = 3L, CompanyId = 3L, Difficulty = 1, Position = "Intern", Comment = "ez", TagId = 2L, Issued = new System.DateTime(2021, 9, 1), UserId = dummy.Id },
+                new { Id = 4L, CompanyId = 4L, Difficulty = 1, Position = "Intern", Comment = "ez", TagId = 2L, Issued = new System.DateTime(2021, 9, 1), UserId = dummy.Id }
             );
         }
     }
