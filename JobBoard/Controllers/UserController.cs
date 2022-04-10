@@ -93,6 +93,7 @@ namespace JobBoard.Controllers
                  .Where(r => r.User.Email.Equals(email))
                  .Select(
                  r => new InterviewFront(
+                     r.Id,
                      r.Difficulty,
                      r.Position,
                      r.Comment,
@@ -109,6 +110,7 @@ namespace JobBoard.Controllers
                 .Where(r => r.User.Email.Equals(email))
                 .Select(
                 r => new ReviewFront(
+                    r.Id,
                     r.Rating,
                     r.Position,
                     r.Comment,

@@ -29,10 +29,11 @@ namespace JobBoard.Controllers
         [HttpGet("{name}")]
         public ActionResult<IEnumerable<ReviewFront>> GetReviews(string name)
         {
-            var reviews = _context.Reviews
+            var reviews = _context.Reviews.Include(r => r.User)
                 .Where(r => r.Company.Name.Equals(name))
                 .Select(
                 r => new ReviewFront(
+                    r.Id,
                     r.Rating,
                     r.Position,
                     r.Comment,

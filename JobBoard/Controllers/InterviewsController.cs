@@ -32,6 +32,7 @@ namespace JobBoard.Controllers
                 .Where(r => r.Company.Name.Equals(name))
                 .Select(
                 r => new InterviewFront(
+                    r.Id,
                     r.Difficulty,
                     r.Position,
                     r.Comment,
