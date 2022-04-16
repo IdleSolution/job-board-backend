@@ -62,6 +62,21 @@ namespace JobBoard.Controllers
             return BadRequest(reviewFront);
         }
 
+        [Authorize]
+        [HttpDelete("{id}")]
+        public ActionResult<ReviewFront> DeleteReview(long id)
+        {
+            var review = _context.Reviews.Include(r=>r.Tag).Include(r=>r.User).SingleOrDefault(r=>r.Id==id);
+            if (review is not null && review.User.Email.Equals(HttpContext.User.Identity.Name))
+            {
+                _context.Reviews.Remove(review);
+                _context.SaveChanges();
+                ReviewFront reviewFront = new ReviewFront(review.Id, review.Rating, review.Position, review.Comment,review.Tag.Name, review.From, review.To, review.To == null && review.From != null, review.Issued,review.User.Email);
+                return Ok(reviewFront);
+            }
+            return BadRequest(id);
+        }
+
         private Review CreateReview(string name, ReviewFront reviewFront)
         {
             var user = _context.Users.Single(u => u.Email.Equals(HttpContext.User.Identity.Name));

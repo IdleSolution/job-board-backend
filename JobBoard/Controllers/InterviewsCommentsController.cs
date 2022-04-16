@@ -39,7 +39,7 @@ namespace JobBoard.Controllers
         // Post: api/InterviewsComments/4
         [Authorize]
         [HttpPost("{interviewId}")]
-        public ActionResult<CommentFront> PostReview(long interviewId, [FromBody] CommentFront commentFront)
+        public ActionResult<CommentFront> PostComment(long interviewId, [FromBody] CommentFront commentFront)
         {
             if (_context.Interviews.Any(r => r.Id == interviewId) && HttpContext.User.Identity.Name.Equals(commentFront.CreatorEmail))
             {
@@ -54,6 +54,20 @@ namespace JobBoard.Controllers
             return BadRequest(commentFront);
         }
 
-
+        [Authorize]
+        [HttpDelete("{commentId}")]
+        public ActionResult<CommentFront> DeleteComment(long commentId)
+        {
+            var comment = _context.InterviewComments.Include(c => c.User)
+                .Single(c => c.Id == commentId);
+            if (comment is not null && comment.User.Email.Equals(HttpContext.User.Identity.Name))
+            {
+                _context.InterviewComments.Remove(comment);
+                _context.SaveChanges();
+                CommentFront commentFront = new CommentFront(comment.Id, comment.Message, comment.Issued, comment.User.Email);
+                return Ok(commentFront);
+            }
+            return BadRequest(commentId);
+        }
     }
 }

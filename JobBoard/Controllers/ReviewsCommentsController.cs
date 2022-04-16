@@ -54,6 +54,21 @@ namespace JobBoard.Controllers
             return BadRequest(commentFront);
         }
 
+        [Authorize]
+        [HttpDelete("{commentId}")]
+        public ActionResult<CommentFront> DeleteComment(long commentId)
+        {
+            var comment = _context.ReviewComments.Include(c => c.User)
+                .Single(c => c.Id == commentId);
+            if (comment is not null && comment.User.Email.Equals(HttpContext.User.Identity.Name))
+            {
+                _context.ReviewComments.Remove(comment);
+                _context.SaveChanges();
+                CommentFront commentFront = new CommentFront(comment.Id, comment.Message, comment.Issued, comment.User.Email);
+                return Ok(commentFront);
+            }
+            return BadRequest(commentId);
+        }
 
     }
 }
