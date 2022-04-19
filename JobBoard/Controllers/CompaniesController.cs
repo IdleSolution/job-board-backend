@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using JobBoard.Contexts;
 using JobBoard.Models;
 using JobBoard.Models.Frontend;
+using JobBoard.Models.Backend;
 
 namespace JobBoard.Controllers
 {
@@ -81,6 +82,7 @@ namespace JobBoard.Controllers
                 .Where(r => r.Company.Name.Equals(name))
                 .Select(
                 r => new InterviewFront(
+                    r.Id,
                     r.Difficulty,
                     r.Position,
                     r.Comment,
@@ -97,6 +99,7 @@ namespace JobBoard.Controllers
                 .Where(r => r.Company.Name.Equals(name))
                 .Select(
                 r => new ReviewFront(
+                    r.Id,
                     r.Rating,
                     r.Position,
                     r.Comment,

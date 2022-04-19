@@ -1,6 +1,7 @@
 #nullable enable
 
 using System;
+using System.Collections.Generic;
 
 namespace JobBoard.Models.Backend
 {
@@ -29,5 +30,6 @@ namespace JobBoard.Models.Backend
         public Tag Tag { get; set; }
         public DateTime Issued { get; set; }
         public User User { get; set; }
+        public ICollection<InterviewComment> Comments { get; set; }
     }
 }

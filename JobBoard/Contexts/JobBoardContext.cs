@@ -19,6 +19,8 @@ namespace JobBoard.Contexts
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Interview> Interviews { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<InterviewComment> InterviewComments { get; set; }
+        public DbSet<ReviewComment> ReviewComments { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,13 +1,15 @@
 #nullable enable
 
 using System;
+using System.Collections.Generic;
 
 namespace JobBoard.Models.Frontend
 {
     public class ReviewFront
     {
-        public ReviewFront(int rating, string position, string comment, string tag, DateTime? from, DateTime? to, bool isStillWorking, DateTime issued, string creatorEmail)
+        public ReviewFront(long id, int rating, string position, string comment, string tag, DateTime? from, DateTime? to, bool isStillWorking, DateTime issued, string creatorEmail)
         {
+            Id = id;
             Rating = rating;
             Position = position;
             Comment = comment;
@@ -18,7 +20,7 @@ namespace JobBoard.Models.Frontend
             Issued = issued;
             CreatorEmail = creatorEmail;
         }
-
+        public long Id { get; set; }
         public int Rating { get; set; }
         public string Position { get; set; }
         public string Comment { get; set; }
