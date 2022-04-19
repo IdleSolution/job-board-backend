@@ -2,6 +2,9 @@ using JobBoard.Models.Backend;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Reflection;
+using JobBoard.Configuration;
+using Microsoft.AspNetCore.Identity;
 
 namespace JobBoard.Contexts
 {
@@ -39,6 +42,15 @@ namespace JobBoard.Contexts
                 .WithMany(u => u.Reviews)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<User>()
+                .HasMany(i => i.Roles)
+                .WithMany(u => u.Users);
+
+            modelBuilder.Entity<Role>().HasData(
+                new Role{ Name = "Admin", NormalizedName = "Admin".ToUpper() },
+                new Role{ Name = "Moderator", NormalizedName = "Moderator".ToUpper()}
+                );
+                
             List<Tag> tags = new List<Tag> {
                 new Tag { Id = 1, Name = "JS/TS" },
                 new Tag { Id = 2, Name = "C#" },

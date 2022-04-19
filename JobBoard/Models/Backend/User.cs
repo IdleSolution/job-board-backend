@@ -10,5 +10,6 @@ namespace JobBoard.Models.Backend
     {
         public ICollection<Review> Reviews { get; set; }
         public ICollection<Interview> Interviews { get; set; }
+        public  ICollection<Role> Roles { get; set; }
     }
 }
