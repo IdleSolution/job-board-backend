@@ -449,14 +449,30 @@ namespace JobBoard.Migrations
                         {
                             Id = "dummyId",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8105b60c-6ab3-44e6-afa8-2416b93ce503",
+                            ConcurrencyStamp = "278e60cc-8317-4133-97cc-75188ecce0ab",
                             Email = "dummy",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9967eca6-bc4e-4c79-8848-a6ca40ddc556",
+                            SecurityStamp = "1719d76c-1814-4fd6-b808-fa9691a6f6cd",
                             TwoFactorEnabled = false,
                             UserName = "dummy"
+                        },
+                        new
+                        {
+                            Id = "B22698B8-42A2-4115-9631-1C2D1E2AC5F7",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "0d8cef38-bebc-43c3-8531-257cf2dff273",
+                            Email = "Admin@Admin.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "MASTERADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGPNX/khUdhZqZY0eoMXOdlQ8RhShXKLqHzpW84Z8kQewlQh4WBHIl+XPzFGvez9sA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "00000000-0000-0000-0000-000000000000",
+                            TwoFactorEnabled = false,
+                            UserName = "masteradmin"
                         });
                 });
 
@@ -574,6 +590,13 @@ namespace JobBoard.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "B22698B8-42A2-4115-9631-1C2D1E2AC5F7",
+                            RoleId = "2301D884-221A-4E7D-B509-0113DCC043E1"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -595,11 +618,42 @@ namespace JobBoard.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.Property<string>("RolesId")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("varchar(200)");
+
+                    b.HasKey("RolesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("RoleUser");
+                });
+
             modelBuilder.Entity("JobBoard.Models.Backend.Role", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
 
                     b.HasDiscriminator().HasValue("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "2301D884-221A-4E7D-B509-0113DCC043E1",
+                            ConcurrencyStamp = "d728d2d8-bdf7-41e8-972a-a3af834ac12b",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "7D9B7113-A8F8-4035-99A7-A20DD400F6A3",
+                            ConcurrencyStamp = "a527604a-68bf-4c25-9064-e832b36723b9",
+                            Name = "Moderator",
+                            NormalizedName = "Moderator"
+                        });
                 });
 
             modelBuilder.Entity("JobBoard.Models.Backend.Interview", b =>
@@ -699,6 +753,21 @@ namespace JobBoard.Migrations
                     b.HasOne("JobBoard.Models.Backend.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.HasOne("JobBoard.Models.Backend.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("JobBoard.Models.Backend.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
