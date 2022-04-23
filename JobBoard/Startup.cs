@@ -1,3 +1,4 @@
+using JobBoard.Configuration;
 using JobBoard.Contexts;
 using JobBoard.Models;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using JobBoard.Models.Backend;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 
 namespace JobBoard
 {
@@ -25,6 +27,7 @@ namespace JobBoard
         {
             services.AddDbContext<JobBoardContext>(opt => opt.UseMySQL(Configuration.GetConnectionString("localConnection")));
             services.AddIdentity<User, Role>()
+                .AddRoles<Role>()
                 .AddEntityFrameworkStores<JobBoardContext>();
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
@@ -43,7 +46,7 @@ namespace JobBoard
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<User> userManager)
         {
             if (env.IsDevelopment())
             {
@@ -51,6 +54,7 @@ namespace JobBoard
             }
 
             //app.UseHttpsRedirection();
+            ApplicationDbInitializer.SeedUsers(userManager);
 
             app.UseRouting();
 

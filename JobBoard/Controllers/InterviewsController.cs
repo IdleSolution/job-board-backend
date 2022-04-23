@@ -32,6 +32,7 @@ namespace JobBoard.Controllers
                 .Where(r => r.Company.Name.Equals(name))
                 .Select(
                 r => new InterviewFront(
+                    r.Id,
                     r.Difficulty,
                     r.Position,
                     r.Comment,
@@ -56,6 +57,22 @@ namespace JobBoard.Controllers
             }
             return BadRequest(interviewFront);
         }
+
+        [Authorize]
+        [HttpDelete("{id}")]
+        public ActionResult<InterviewFront> DeleteComment(long id)
+        {
+            var interview = _context.Interviews.Include(i=>i.Tag).Include(i=>i.User).SingleOrDefault(i=>i.Id==id);
+            if (interview is not null && interview.User.Email.Equals(HttpContext.User.Identity.Name))
+            {
+                _context.Interviews.Remove(interview);
+                _context.SaveChanges();
+                InterviewFront interviewFront = new InterviewFront(interview.Id, interview.Difficulty, interview.Position, interview.Comment, interview.Tag.Name, interview.Issued, interview.User.Email);
+                return Ok(interviewFront);
+            }
+            return BadRequest(id);
+        }
+
 
         private Interview CreateInterview(string name, InterviewFront interviewFront)
         {

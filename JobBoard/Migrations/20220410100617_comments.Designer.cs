@@ -3,14 +3,16 @@ using System;
 using JobBoard.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JobBoard.Migrations
 {
     [DbContext(typeof(JobBoardContext))]
-    partial class JobBoardContextModelSnapshot : ModelSnapshot
+    [Migration("20220410100617_comments")]
+    partial class comments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,7 +165,6 @@ namespace JobBoard.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("varchar(200)");
 
                     b.HasKey("Id");
@@ -172,7 +173,7 @@ namespace JobBoard.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("InterviewComments");
+                    b.ToTable("InterviewComment");
                 });
 
             modelBuilder.Entity("JobBoard.Models.Backend.Review", b =>
@@ -354,7 +355,6 @@ namespace JobBoard.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("varchar(200)");
 
                     b.HasKey("Id");
@@ -363,7 +363,7 @@ namespace JobBoard.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ReviewComments");
+                    b.ToTable("ReviewComment");
                 });
 
             modelBuilder.Entity("JobBoard.Models.Backend.Tag", b =>
@@ -507,12 +507,12 @@ namespace JobBoard.Migrations
                         {
                             Id = "dummyId",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6cff0648-143e-491a-8aa4-9f233c390529",
+                            ConcurrencyStamp = "0f477b15-858c-4a4d-bf69-e1eba176c11d",
                             Email = "dummy",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f2fca08f-7d9c-4b5a-b884-249f54153047",
+                            SecurityStamp = "f1027d6a-3192-4fa8-add8-c7e79e98981f",
                             TwoFactorEnabled = false,
                             UserName = "dummy"
                         });
@@ -687,19 +687,15 @@ namespace JobBoard.Migrations
 
             modelBuilder.Entity("JobBoard.Models.Backend.InterviewComment", b =>
                 {
-                    b.HasOne("JobBoard.Models.Backend.Interview", "Interview")
+                    b.HasOne("JobBoard.Models.Backend.Interview", null)
                         .WithMany("Comments")
                         .HasForeignKey("InterviewId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("JobBoard.Models.Backend.User", "User")
-                        .WithMany("InterviewComments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Interview");
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -738,10 +734,8 @@ namespace JobBoard.Migrations
                         .IsRequired();
 
                     b.HasOne("JobBoard.Models.Backend.User", "User")
-                        .WithMany("ReviewComments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Review");
 
@@ -818,11 +812,7 @@ namespace JobBoard.Migrations
 
             modelBuilder.Entity("JobBoard.Models.Backend.User", b =>
                 {
-                    b.Navigation("InterviewComments");
-
                     b.Navigation("Interviews");
-
-                    b.Navigation("ReviewComments");
 
                     b.Navigation("Reviews");
                 });
