@@ -70,7 +70,6 @@ namespace JobBoard.Controllers
         [HttpGet]
         public ActionResult<UserFront> GetUser()
         {
-            Console.WriteLine(HttpContext.User.Identity.Name);
             var email = HttpContext.User.Identity.Name;
             return Ok(GetUserInfo(email));
         }

@@ -25,7 +25,6 @@ namespace JobBoard.Controllers
         }
 
         // GET: api/InterviewsComments/4
-        [Authorize]
         [HttpGet("{interviewId}")]
         public ActionResult<IEnumerable<CommentFront>> GetComments(long interviewId)
         {

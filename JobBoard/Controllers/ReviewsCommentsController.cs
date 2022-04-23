@@ -24,8 +24,8 @@ namespace JobBoard.Controllers
             _context = context;
         }
 
+
         // GET: api/ReviewsComments/4
-        [Authorize]
         [HttpGet("{reviewId}")]
         public ActionResult<IEnumerable<CommentFront>> GetReviews(long reviewId)
         {
