@@ -47,6 +47,27 @@ namespace JobBoard.Controllers
             return Ok(reviews);
         }
 
+        [HttpGet("user/{email}")]
+        public ActionResult<IEnumerable<ReviewFront>> GetUserReviews(string email)
+        {
+            var reviews = _context.Reviews.Include(r => r.User)
+               .Where(r => r.User.Email.Equals(email))
+               .Select(
+               r => new ReviewFront(
+                   r.Id,
+                   r.Rating,
+                   r.Position,
+                   r.Comment,
+                   r.Tag.Name,
+                   r.From,
+                   r.To,
+                   r.To == null && r.From != null,
+                   r.Issued,
+                   r.User.Email
+                   ));
+            return Ok(reviews);
+        }
+
         // Post: api/Reviews/Qualtrics
         [Authorize]
         [HttpPost("{name}")]
@@ -61,6 +82,23 @@ namespace JobBoard.Controllers
             }
             return BadRequest(reviewFront);
         }
+
+        [Authorize]
+        [HttpPut("{id}")]
+        public ActionResult<ReviewFront> PutReview(long id, [FromBody] ReviewFront reviewFront)
+        {
+            Review review = _context.Reviews.Find(id);
+            if (HttpContext.User.Identity.Name.Equals(review.User.Email))
+            {
+                review.Comment = reviewFront.Comment;
+                _context.Reviews.Update(review);
+                _context.SaveChanges();
+                return Ok(reviewFront);
+            }
+            return BadRequest(reviewFront);
+        }
+
+       
 
         [Authorize]
         [HttpDelete("{id}")]

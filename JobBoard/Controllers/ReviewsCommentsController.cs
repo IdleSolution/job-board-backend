@@ -36,6 +36,16 @@ namespace JobBoard.Controllers
             return Ok(result);
         }
 
+        [HttpGet("user/{email}")]
+        public ActionResult<IEnumerable<CommentFront>> GetUserReviewCommnets(string email)
+        {
+            var result = _context.ReviewComments.Include(c => c.Review).Include(c => c.User)
+                .Where(c => c.User.Equals(email)).ToArray()
+                .Select(r => new CommentFront(r.Id, r.Message, r.Issued, r.User.Email))
+                .OrderBy(c => c.Issued);
+            return Ok(result);
+        }
+
         // Post: api/ReviewsComments/4
         [Authorize]
         [HttpPost("{reviewId}")]
@@ -48,6 +58,21 @@ namespace JobBoard.Controllers
 
                 ReviewComment comment = new ReviewComment(commentFront.Message, commentFront.Issued, user, review);
                 _context.ReviewComments.Add(comment);
+                _context.SaveChanges();
+                return Ok(commentFront);
+            }
+            return BadRequest(commentFront);
+        }
+
+        [Authorize]
+        [HttpPut("{id}")]
+        public ActionResult<CommentFront> PutReview(long id, [FromBody] CommentFront commentFront)
+        {
+            ReviewComment review = _context.ReviewComments.Find(id);
+            if (HttpContext.User.Identity.Name.Equals(review.User.Email))
+            {
+                review.Message = commentFront.Message;
+                _context.ReviewComments.Update(review);
                 _context.SaveChanges();
                 return Ok(commentFront);
             }

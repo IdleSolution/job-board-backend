@@ -35,6 +35,16 @@ namespace JobBoard.Controllers
             return Ok(result);
         }
 
+        [HttpGet("user/{email}")]
+        public ActionResult<IEnumerable<CommentFront>> GetUserInterviewCommnets(string email)
+        {
+            var result = _context.InterviewComments.Include(c => c.Interview).Include(c => c.User)
+                .Where(c => c.User.Email.Equals(email)).ToArray()
+                .Select(r => new CommentFront(r.Id, r.Message, r.Issued, r.User.Email))
+                .OrderBy(c => c.Issued);
+            return Ok(result);
+        }
+
         // Post: api/InterviewsComments/4
         [Authorize]
         [HttpPost("{interviewId}")]
@@ -47,6 +57,21 @@ namespace JobBoard.Controllers
 
                 InterviewComment comment = new InterviewComment(commentFront.Message, commentFront.Issued, user, interviewId);
                 _context.InterviewComments.Add(comment);
+                _context.SaveChanges();
+                return Ok(commentFront);
+            }
+            return BadRequest(commentFront);
+        }
+
+        [Authorize]
+        [HttpPut("{id}")]
+        public ActionResult<CommentFront> PutReview(long id, [FromBody] CommentFront commentFront)
+        {
+            InterviewComment interview = _context.InterviewComments.Find(id);
+            if (HttpContext.User.Identity.Name.Equals(interview.User.Email))
+            {
+                interview.Message = commentFront.Message;
+                _context.InterviewComments.Update(interview);
                 _context.SaveChanges();
                 return Ok(commentFront);
             }

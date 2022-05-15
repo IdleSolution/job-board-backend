@@ -43,6 +43,24 @@ namespace JobBoard.Controllers
             return Ok(interviews);
         }
 
+        [HttpGet("user/{email}")]
+        public ActionResult<IEnumerable<InterviewFront>> GetUserInterviews(string email)
+        {
+            var interviews = _context.Interviews
+                 .Where(r => r.User.Email.Equals(email))
+                 .Select(
+                 r => new InterviewFront(
+                     r.Id,
+                     r.Difficulty,
+                     r.Position,
+                     r.Comment,
+                     r.Tag.Name,
+                     r.Issued,
+                     r.User.Email
+                     ));
+            return Ok(interviews);
+        }
+
         // Post: api/Intereviews/Qualtrics
         [Authorize]
         [HttpPost("{name}")]
@@ -57,6 +75,23 @@ namespace JobBoard.Controllers
             }
             return BadRequest(interviewFront);
         }
+
+        [Authorize]
+        [HttpPut("{id}")]
+        public ActionResult<InterviewFront> PutInterview(long id, [FromBody] InterviewFront interviewFront)
+        {
+            Interview interview = _context.Interviews.Find(id);
+            if (HttpContext.User.Identity.Name.Equals(interview.User.Email))
+            {
+                interview.Comment = interviewFront.Comment;
+                _context.Interviews.Update(interview);
+                _context.SaveChanges();
+                return Ok(interviewFront);
+            }
+            return BadRequest(interviewFront);
+        }
+
+        
 
         [Authorize]
         [HttpDelete("{id}")]
