@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -87,8 +88,11 @@ namespace JobBoard.Controllers
         [HttpPut("{id}")]
         public ActionResult<ReviewFront> PutReview(long id, [FromBody] ReviewFront reviewFront)
         {
+
             Review review = _context.Reviews.Find(id);
-            if (HttpContext.User.Identity.Name.Equals(review.User.Email))
+            var user = _context.Users.First(x => x.Reviews.Contains(review));
+
+            if (HttpContext.User.Identity.Name.Equals(user.Email))
             {
                 review.Comment = reviewFront.Comment;
                 _context.Reviews.Update(review);
